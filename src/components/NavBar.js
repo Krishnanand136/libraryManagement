@@ -38,16 +38,13 @@ export default function NavBar({ pageName }) {
     useEffect(() => console.log(`\n\n\n\n${pageName} : \n`, state), [state])
 
     return (
-            <Navbar className="NavBar w-100" color="dark" dark>
-                <NavbarBrand>
-                <img alt="logo"src={logo}
-                    style={{
-                        height: 40,
-                        width: 40
-                    }}
-                />
-                    {`${pageName} - ${user?.userName}`}
-                </NavbarBrand>
+            <div className="NavBar w-100">
+                    <img alt="logo"src={logo}
+                        style={{
+                            height: 40,
+                            width: 40
+                        }}
+                    />
                 
                 <div>
                     <img
@@ -78,6 +75,6 @@ export default function NavBar({ pageName }) {
                         Logout
                     </Button>
                 </div>
-            </Navbar>
+            </div>
     )
 }

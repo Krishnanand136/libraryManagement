@@ -10,6 +10,8 @@ import IssueBooks from './components/IssueBooks';
 import MyBooks from './components/MyBooks';
 import AdminNavBar from './components/AdminNavBar';
 import NavBar from './components/NavBar'
+import Footer from './components/footer';
+import PageContainer from './components/page-container'
 
 const history = createBrowserHistory()
 
@@ -25,7 +27,6 @@ function App() {
                   </>
                 }
               />
-
               <Route path='/wishlist' element={
                   <>
                     <NavBar pageName={"All Books"}/>
@@ -33,7 +34,6 @@ function App() {
                   </>
                 }
               />
-
               <Route path='/myBooks'element={
                   <>
                     <NavBar pageName={"My Books"}/>
@@ -41,15 +41,14 @@ function App() {
                   </>
                 }
               />
-
               <Route path='/admin' element={
                   <>
-                    <AdminNavBar pageName={"All Books"}/>
+                    <AdminNavBar pageName="All Books"/>
                     <Admin/>
+                    <Footer/>
                   </>
                 }
               />
-
               <Route path='/issueRequests' element={
                   <>
                    <AdminNavBar pageName={"Issue Requests"}/>
