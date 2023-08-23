@@ -1,0 +1,140 @@
+.NavBar-Container {
+    height: 64px;
+    padding-left: 64px;
+    padding-right: 64px;
+    background-color: #fff;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.NavBarLeftSection {
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+}
+
+.MenuBar {
+    margin-left: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    height: 100%;
+}
+
+.LeftMenuItem {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    margin-left: 10px;
+    padding-left: 2px;
+    padding-right: 2px;
+    padding-bottom: 2px;
+    cursor: pointer;
+}
+
+.LeftMenuItem-Selected {
+    padding-bottom: 0px;
+    border-bottom: 2px solid #FCD800;
+}
+
+.icon {
+    height: 24px;
+    width: 24px;
+    margin-right: 4px;
+}
+
+.icon-small {
+    height: 16px;
+    width: 16px;
+}
+
+.NavBar-inner {
+   display: flex;
+   background-color: #fff;
+   flex-direction: row;
+   justify-content: space-between;
+}
+
+.NavBar-Brand {
+    height: 29px;
+    width: 133px;
+}
+
+.TypoGraphy {
+    color: #3D3D3D;
+    font-family:'Roboto', sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px; 
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+}
+
+.RightMenuItem {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    margin-left: 10px;
+    padding-left: 2px;
+    padding-right: 2px;
+    padding-bottom: 2px;
+    cursor: pointer;
+}
+
+.BaseContainer{
+    height: 100%;
+    width: 100%; 
+    display: flex;
+    flex-direction: column;
+}
+
+.BodyContainer{
+    background-color: #e1e1e1;
+    height: 100%;
+    width: 100%;
+    padding-left: 64px;
+    padding-right: 64px;
+    padding-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+}
+
+.BaseBodyContainer{
+    background-color: #e1e1e1;
+    height: 100%;
+    width: 100%;
+}
+
+.PageHeader{
+    height: 72px;
+    width: 100%;
+    padding: 16px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.PageBody{
+    flex-grow: 1;
+    width: 100%;
+    background-color: #fff;
+    display: flex;
+    flex-direction: row;
+}
+
+.mag{
+    height: 32px;
+    width: 32px;
+}
+
+.PageHeader-Text{
+    font-size: 23px;
+    font-weight: 400;
+}

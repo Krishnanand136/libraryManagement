@@ -32,7 +32,7 @@ export default function Login() {
     }
 
     useEffect(() => {
-        admin && navigate('/admin')
+        admin && navigate('/admin/allBooks')
     },[admin]) 
   
     useEffect(() => {

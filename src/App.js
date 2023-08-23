@@ -12,6 +12,10 @@ import AdminNavBar from './components/AdminNavBar';
 import NavBar from './components/NavBar'
 import Footer from './components/footer';
 import PageContainer from './components/page-container'
+import BaseContainer from './newContainers/baseContainer';
+
+import { pageNames } from './utils/constants';
+
 
 const history = createBrowserHistory()
 
@@ -19,49 +23,16 @@ function App() {
   return (
     <div className="App">
         <BrowserRouter history={history}>
-          <Routes>
-              <Route path='/homepage' element={
-                  <>
-                    <NavBar pageName={"All Books"}/>
-                    <HomePage/>
-                  </>
-                }
-              />
-              <Route path='/wishlist' element={
-                  <>
-                    <NavBar pageName={"All Books"}/>
-                    <WishList/>
-                  </>
-                }
-              />
-              <Route path='/myBooks'element={
-                  <>
-                    <NavBar pageName={"My Books"}/>
-                    <MyBooks/>
-                  </>
-                }
-              />
-              <Route path='/admin' element={
-                  <>
-                    <AdminNavBar pageName="All Books"/>
-                    <Admin/>
-                    <Footer/>
-                  </>
-                }
-              />
-              <Route path='/issueRequests' element={
-                  <>
-                   <AdminNavBar pageName={"Issue Requests"}/>
-                   <IssueBooks/>
-                  </>
-                }
-              />
-              
+          <Routes>   
+              <Route path='/admin/allBooks' element={<BaseContainer pageName={pageNames.ADMIN_HOME} />}/>
+              <Route path='/admin/issueRequests' element={<BaseContainer pageName={pageNames.ISSUE_REQUESTS} />}/>
+
               <Route path='/login' element={<Login/>}/>
               <Route path='/' element={<Login/>}/>
           </Routes>
         </BrowserRouter>
     </div>
+
   );
 }
 
