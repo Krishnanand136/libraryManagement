@@ -21,6 +21,7 @@ const Grid = ({setGridApi, defColDef,...props}) => {
             filter: true,
             resizable: true,
             cellClass: 'TypoGraphy',
+            select: false,
             ...defColDef
         },
         cacheQuickFilter:true,

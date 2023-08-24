@@ -7,9 +7,7 @@ import User from "../../images/User-Default.jpg"
 import TypoGraphy from "../base/TypoGraphy"
 import { useLocation, useNavigate } from "react-router-dom"
 import IconButton from "../base/IconButton"
-import DropDownIcon from "../../images/dropdown.png"
-import DropDownMenu from "../base/DropDownMenu"
-import useToggle from "../../hooks/useToggle.js"
+
 
 //------------------------------------------//
 const NavBarBrand = ({className, ...props}) => {
@@ -21,28 +19,17 @@ const NavBarBrand = ({className, ...props}) => {
     )
 }
 
-const LeftMenuItem = ({name, icon, selected, onClick ,className, dropDown, dropDownItems}) => {
-    const defaultClassName = `LeftMenuItem ${className ? className : ''} ${ selected ? 'LeftMenuItem-Selected' : ''} ${dropDown && 'DropDown'}`
+const LeftMenuItem = ({name, icon, selected, onClick ,className}) => {
+    const defaultClassName = `LeftMenuItem ${className ? className : ''} ${ selected ? 'LeftMenuItem-Selected' : ''}`
 
-    if(dropDown){
-        onclick = () => {
-            toggleDropDown()
-            onClick && onClick()
-        }
-    }else{
-        onclick = () => {
-            onClick && onClick()
-        }
+    const onclick = () =>{
+        onClick && onClick()
     }
 
     return (
         <div className={defaultClassName} onClick={onclick}>
-            <div className="d-flex">
-                <IconButton icon={icon}/>
-                <TypoGraphy text={name}/>
-                {dropDown && <IconButton icon={DropDownIcon} variant="small"/>}
-            </div>
-            {dropDown && <DropDownMenu items={dropDownItems} showDropDown={showDropDown}/>}
+            <IconButton icon={icon}/>
+            <TypoGraphy text={name}/>
         </div>
     )
 }
@@ -101,7 +88,7 @@ const NavBarRightSection = ({className, menuItems}) => {
 //------------------------------------------//
 
 
-const NavBar = ({className, ...rest}) => {
+const UserNavBar = ({className, ...rest}) => {
 
     const defaultClass = `NavBar-Container ${className ? className : ''}`
     const location = useLocation()
@@ -112,43 +99,21 @@ const NavBar = ({className, ...rest}) => {
             name: 'All Books',
             icon: Menu1,
             route: 'allBooks',
-            selected: location.pathname.substring(location.pathname.lastIndexOf('/') + 1) === 'allBooks',
-            show: true,
-            dropDown : true,
-            dropDownItems : [
-                {
-                    name: 'All Books',
-                    icon: Menu1,
-                    route: 'allBooks',
-                    selected: location.pathname.substring(location.pathname.lastIndexOf('/') + 1) === 'allBooks',
-                    onClick: () => {
-                        if(location.pathname !== '/admin/allBooks')
-                            navigate('/admin/allBooks')
-                    },
-                },
-                {
-                    name: 'Issue Requests',
-                    icon: Menu1,
-                    route: 'issueRequests',
-                    selected: location.pathname.substring(location.pathname.lastIndexOf('/') + 1) === 'issueRequests',
-                    onClick: () => {
-                        if(location.pathname !== '/admin/issueRequests')
-                            navigate('/admin/issueRequests')
-                    }
-                }
-
-            ]
-
+            selected: location.pathname.substring(location.pathname.lastIndexOf('/') + 1) === 'homepage',
+            onClick: () => {
+                if(location.pathname !== '/homepage')
+                    navigate('/homepage')
+            }
 
         },
         {
-            name: 'Issue Requests',
+            name: 'MyBooks',
             icon: Menu1,
-            route: 'issueRequests',
-            selected: location.pathname.substring(location.pathname.lastIndexOf('/') + 1) === 'issueRequests',
+            route: 'myBooks',
+            selected: location.pathname.substring(location.pathname.lastIndexOf('/') + 1) === 'myBooks',
             onClick: () => {
-                if(location.pathname !== '/admin/issueRequests')
-                    navigate('/admin/issueRequests')
+                if(location.pathname !== '/myBooks')
+                    navigate('/myBooks')
             }
 
         }
@@ -183,4 +148,4 @@ const NavBar = ({className, ...rest}) => {
     )
 }
 
-export default NavBar
+export default UserNavBar

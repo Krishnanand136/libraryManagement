@@ -1,9 +1,9 @@
-const TypoGraphy = ({className, text}) => {
+const TypoGraphy = ({className, text, ...rest}) => {
 
     const defaultClassName = `TypoGraphy ${className ? className : ''}`
 
     return(
-        <div className={defaultClassName}>
+        <div className={defaultClassName} {...rest}>
             {text}
         </div>
     )

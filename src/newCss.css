@@ -28,7 +28,6 @@
 
 .LeftMenuItem {
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
     height: 100%;
@@ -48,11 +47,17 @@
     height: 24px;
     width: 24px;
     margin-right: 4px;
+    cursor: pointer;
 }
 
 .icon-small {
     height: 16px;
     width: 16px;
+}
+
+.icon-x-small {
+    height: 8px;
+    width: 8px;
 }
 
 .NavBar-inner {
@@ -67,6 +72,15 @@
     width: 133px;
 }
 
+.footer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 32;
+    padding-left: 64px;
+    padding-right: 64px;
+}
+
 .TypoGraphy {
     color: #3D3D3D;
     font-family:'Roboto', sans-serif;
@@ -77,6 +91,7 @@
     flex-shrink: 0;
     display: flex;
     align-items: center;
+    text-align: left;
 }
 
 .RightMenuItem {
@@ -106,6 +121,7 @@
     padding-bottom: 16px;
     display: flex;
     flex-direction: column;
+    position: relative;
 }
 
 .BaseBodyContainer{
@@ -156,3 +172,109 @@
     left: 100px;
 }
   
+
+.MyButton{
+    border-radius: 7em;
+    margin: 2px;
+    min-width: 100px;
+}
+
+.SideDrawer{
+    height: 100%;
+    flex-grow: 1;
+    position: absolute;
+    right: 0;
+    min-width: 33%;
+    background-color: #fff;
+    z-index: 9;
+    border: 1px solid #ECECEC;
+    display: flex;
+    flex-direction: column;
+}
+
+.HomePageSideDrawer{
+    max-width: 45%;
+}
+
+.SideDrawerHeader{
+    height: 48px;
+    width: 100%;
+    background-color: #E5F2F6;
+    display: flex;
+    flex-direction: row;
+    padding: 16px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.SideDrawerFooter{
+    height: 64px;
+    width: 100%;
+    background-color: #E5F2F6;
+    display: flex;
+    flex-direction: row;
+    padding: 16px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.SideDrawerBody{
+    width: 100%;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    align-items: center;
+    padding: 10px 20px;
+    overflow-y: scroll;
+}
+
+.ImageContainer {
+    width: fit-content;
+    padding: 10px;
+    border: 1px solid black;
+}
+
+.Form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.FormGroup {
+    display: flex;
+    width: 100%;
+    align-items: flex-start;
+    padding-left: 2px;
+    padding-right: 2px;
+}
+
+.FormInput {
+    outline: none !important;
+    border-radius: 2px;
+}
+
+.FormInput :focus{
+    outline: none;
+}
+
+
+.copyrights-text {
+    color: #3D3D3D;
+    font-size: 12px;
+}
+
+.privacy-policy{
+    color: #0295BE;
+    font-size: 12px;
+
+}
+
+.TableRow{
+    border-bottom: 0;
+}
+
+
+.TableCell {
+    border: 0
+}

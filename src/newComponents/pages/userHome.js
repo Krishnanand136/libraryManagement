@@ -10,7 +10,7 @@ import PageHeader from "../base/pageHeader"
 import PageBody from  "../base/pageBody"
 import TypoGraphy from "../base/TypoGraphy"
 import MyButton from "../base/Button"
-import Edit from "../../images/pencil.png"
+import Info from "../../images/info.png"
 import IconButton from "../base/IconButton";
 import SideDrawer from "../../newContainers/SideDrawer"
 import useToggle from "../../hooks/useToggle"
@@ -25,7 +25,16 @@ import SideDrawerHeader from "../../newContainers/SideDrawerHeader"
 import CloseIconButton from "../../newComponents/derived/CloseIconButton"
 import Button from "../base/Button"
 
-const AdminHome = ({className}) => {
+import Table from "../base/Table"
+import TableCell from "../base/TableCell"
+import TableBody from "../base/TableBody"
+import TableHead from "../base/TableHead";
+import TableHeaderCell from "../base/TableHeaderCell"
+import TableRow from "../base/TableRow"
+
+
+
+const UserHome = ({className}) => {
 
     const defaultClassName = `BodyContainer ${className ? className : ''}`
 
@@ -43,14 +52,9 @@ const AdminHome = ({className}) => {
         {
             maxWidth: 50,
             cellRenderer: (params) => {
-                return <IconButton icon={Edit} onClick={()=> {setSelectedRow(params.data); openSideDrawer()}}/>
+                return <IconButton icon={Info} onClick={()=> {setSelectedRow(params.data); openSideDrawer()}}/>
             },
             filter: false
-        },
-        {
-            field: 'isbn',
-            maxWidth: 200,
-            headerStyle: { textAlign : "center"},
         },
         {
             field: 'title',
@@ -107,8 +111,12 @@ const AdminHome = ({className}) => {
         },
         {
             cellRenderer: (field) => {
-                const { data } = field
-                return <MyButton disabled={data.status === 'deleted'} onClick={()=> deleteBook({isbn : data.isbn})}>Delete</MyButton>
+                return <MyButton>WishList</MyButton>
+            }
+        },
+        {
+            cellRenderer: (field) => {
+                return <MyButton>Get Book</MyButton>
             }
         },
     ] 
@@ -141,37 +149,91 @@ const AdminHome = ({className}) => {
                         columnDefs={columnDefs}
                     />
             </PageBody>
-            <SideDrawer show={showSideDrawer}>
+            <SideDrawer show={showSideDrawer} className='HomePageSideDrawer'>
                 <SideDrawerHeader>
                     <TypoGraphy text={selectedRow?.title}/>
                     <CloseIconButton toggle={toggleSideDrawer}/>
                 </SideDrawerHeader>
                 <SideDrawerBody>
                     <ImageContainer height={200} width={180} src={selectedRow?.imageUrl}/>
-                    <Form>
-                        <FormGroup direction="column">
+                    <Table>
+                        <TableBody>
+                            <TableRow>
+                                <TableCell>
+                                    <TypoGraphy text="Title"/>
+                                </TableCell>
+                                <TableCell>
+                                    <TypoGraphy text=":"/>
+                                </TableCell>
+                                <TableCell>
+                                    <TypoGraphy text={selectedRow?.title}/>
+                                </TableCell>
+                            </TableRow>
+
+                            <TableRow>
+                                <TableCell>
+                                    <TypoGraphy text="ISBN"/>
+                                </TableCell>
+                                <TableCell>
+                                    <TypoGraphy text=":"/>
+                                </TableCell>
+                                <TableCell>
+                                    <TypoGraphy text={selectedRow?.isbn}/>
+                                </TableCell>
+                            </TableRow>
+                            
+                            <TableRow>
+                                <TableCell>
+                                    <TypoGraphy text="Author"/>
+                                </TableCell>
+                                <TableCell>
+                                    <TypoGraphy text=":"/>
+                                </TableCell>
+                                <TableCell>
+                                    <TypoGraphy text={selectedRow?.author}/>
+                                </TableCell>
+                            </TableRow>
+
+                            <TableRow>
+                                <TableCell>
+                                    <TypoGraphy text="Description"/>
+                                </TableCell>
+                                <TableCell>
+                                    <TypoGraphy text=":"/>
+                                </TableCell>
+                                <TableCell>
+                                    <TypoGraphy text={selectedRow?.description}/>
+                                </TableCell>
+                            </TableRow>
+
+                        </TableBody>
+                    </Table>
+
+
+
+                        {/* <FormGroup direction="column">
                             <FormText text="Title"/>
-                            <FormInput value={selectedRow?.title}/>
+                            <FormInput disabled value={selectedRow?.title}/>
                         </FormGroup>
                         <FormGroup direction="column">
                             <FormText  text="Description"/>
-                            <FormInput type="textarea" value={selectedRow?.title}/>
+                            <FormInput disabled type="textarea" value={selectedRow?.title}/>
                         </FormGroup>
                         <FormGroup direction="row">
                             <FormGroup direction="column">
                                 <FormText  text="ISBN"/>
-                                <FormInput value={selectedRow?.isbn}/>
+                                <FormInput disabled value={selectedRow?.isbn}/>
                             </FormGroup>
                             <FormGroup direction="column">
                                 <FormText  text="Publish Date"/>
-                                <FormInput type="date" value={ selectedRow && (new Date(selectedRow.published)).toISOString().substr(0, 10) }/>
+                                <FormInput disabled type="date" value={ selectedRow && (new Date(selectedRow.published)).toISOString().substr(0, 10) }/>
                             </FormGroup>
                         </FormGroup>
-                    </Form>
+                    </Form> */}
                 </SideDrawerBody>
                 <SideDrawerFooter className="justify-content-end">
-                    <Button onClick={toggleSideDrawer}>Save</Button>
-                    <Button onClick={toggleSideDrawer}>Cancel</Button>
+                    <Button onClick={toggleSideDrawer}>WishList</Button>
+                    <Button onClick={toggleSideDrawer}>Get Book Now</Button>
                 </SideDrawerFooter>
             </SideDrawer>
            
@@ -180,4 +242,4 @@ const AdminHome = ({className}) => {
            
 }
 
-export default AdminHome
+export default UserHome

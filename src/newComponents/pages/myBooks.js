@@ -25,7 +25,7 @@ import SideDrawerHeader from "../../newContainers/SideDrawerHeader"
 import CloseIconButton from "../../newComponents/derived/CloseIconButton"
 import Button from "../base/Button"
 
-const AdminHome = ({className}) => {
+const MyBooks = ({className}) => {
 
     const defaultClassName = `BodyContainer ${className ? className : ''}`
 
@@ -105,12 +105,7 @@ const AdminHome = ({className}) => {
             field: 'issued',
             valueGetter : (field) => field.data.issued ? "YES" : "NO",
         },
-        {
-            cellRenderer: (field) => {
-                const { data } = field
-                return <MyButton disabled={data.status === 'deleted'} onClick={()=> deleteBook({isbn : data.isbn})}>Delete</MyButton>
-            }
-        },
+
     ] 
 
     const handleSearch = (e) => {
@@ -131,7 +126,7 @@ const AdminHome = ({className}) => {
     return (
         <div className={defaultClassName}>
             <PageHeader>
-                <TypoGraphy text={"All Books"} className="PageHeader-Text"/>
+                <TypoGraphy text={"My Books"} className="PageHeader-Text"/>
                 <SearchBox handleSearch={handleSearch}/>
             </PageHeader>
             <PageBody>
@@ -180,4 +175,4 @@ const AdminHome = ({className}) => {
            
 }
 
-export default AdminHome
+export default MyBooks
