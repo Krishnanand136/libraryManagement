@@ -8,7 +8,8 @@ import TypoGraphy from "../base/TypoGraphy"
 import { useLocation, useNavigate } from "react-router-dom"
 import IconButton from "../base/IconButton"
 import DropDownIcon from "../../images/dropdown.png"
-
+import DropDownMenu from "../base/DropDownMenu"
+import useToggle from "../../hooks/useToggle.js"
 
 //------------------------------------------//
 const NavBarBrand = ({className, ...props}) => {
@@ -21,18 +22,27 @@ const NavBarBrand = ({className, ...props}) => {
 }
 
 const LeftMenuItem = ({name, icon, selected, onClick ,className, dropDown, dropDownItems}) => {
-    const defaultClassName = `LeftMenuItem ${className ? className : ''} ${ selected ? 'LeftMenuItem-Selected' : ''}`
+    const defaultClassName = `LeftMenuItem ${className ? className : ''} ${ selected ? 'LeftMenuItem-Selected' : ''} ${dropDown && 'DropDown'}`
 
-    const onMenuItemClick = (e) => {    
+    if(dropDown){
+        onclick = () => {
+            toggleDropDown()
+            onClick && onClick()
+        }
+    }else{
+        onclick = () => {
+            onClick && onClick()
+        }
     }
 
-
-    console.log("Has droppDown : ", dropDown)
     return (
-        <div className={defaultClassName} onClick={!dropDown && onClick ? onClick : onMenuItemClick}>
-            <IconButton icon={icon}/>
-            <TypoGraphy text={name}/>
-            {dropDown && <IconButton icon={DropDownIcon} variant="small"/>}
+        <div className={defaultClassName} onClick={onclick}>
+            <div className="d-flex">
+                <IconButton icon={icon}/>
+                <TypoGraphy text={name}/>
+                {dropDown && <IconButton icon={DropDownIcon} variant="small"/>}
+            </div>
+            {dropDown && <DropDownMenu items={dropDownItems} showDropDown={showDropDown}/>}
         </div>
     )
 }
@@ -103,11 +113,7 @@ const NavBar = ({className, ...rest}) => {
             icon: Menu1,
             route: 'allBooks',
             selected: location.pathname.substring(location.pathname.lastIndexOf('/') + 1) === 'allBooks',
-            onClick: () => {
-                if(location.pathname !== '/admin/allBooks')
-                    navigate('/admin/allBooks')
-            },
-
+            show: true,
             dropDown : true,
             dropDownItems : [
                 {
