@@ -1,15 +1,14 @@
-const IconButton = ({icon, onClick, className, variant}) => {
+const IconButton = ({icon, className, variant, ...rest}) => {
 
     const defaultVariant = variant ? `icon-${variant}` : ''
     const defaultClassName = `icon ${className ? className : ''} ${defaultVariant}`
-    const onIconClick = (e) => {   
-    }
+
     
     return (
         <img
             src={icon}
             className={defaultClassName}
-            onClick={onClick ? onClick : onIconClick}
+            {...rest}
         />
     )
 

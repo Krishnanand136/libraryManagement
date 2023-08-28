@@ -25,13 +25,29 @@ import BookCard from "../featured/BookCard"
 import Button from "../base/Button"
 
 
-const MyBooks = ({className}) => {
+const WishListButton = ({books, selectedBook, requestBook, removeFromWishList }) => {
+    const book = books.find(el => el?.isbn === selectedBook?.isbn)
+    const isBookRequested = selectedBook.status === 'requested'
+    const isBookIssued = book.issued
+
+    console.log(books, selectedBook)
+    return(
+        <>
+            <Button disabled={isBookIssued || isBookRequested} size='md' outline onClick={() => requestBook(selectedBook)}>{isBookRequested ? "Requested" : isBookIssued ? "Issued" : "Request"}</Button>
+            <Button size='md' outline onClick={()=>removeFromWishList(selectedBook)}>Remove</Button>
+        </>
+    )
+
+}
+
+
+const MyWishList = ({className}) => {
 
     const defaultClassName = `BodyContainer ${className ? className : ''}`
 
     const dispatch = useDispatch()
     const { user, books } = useSelector((state) => state);
-    const { returnBook } = bindActionCreators(allActions, dispatch)
+    const { removeFromWishList, requestBook } = bindActionCreators(allActions, dispatch)
 
     const [ showSideDrawer, toggleSideDrawer, openSideDrawer, closeSideDrawer ] = useToggle()
 
@@ -59,26 +75,34 @@ const MyBooks = ({className}) => {
 
     useEffect(()=>{
 
-        let tempRows = []
-        
-        const newMyBooks = user?.books?.map(el=>{
+        const newWishList = user?.wishlist.map(el=>{
             return {  ...books.filter(item => item.isbn === el.isbn)[0], ...el }
         })
 
+        let tempRows = []
+        let tempBooks = newWishList ? [...newWishList.slice(0,12)] : []
+
+
 
         let i = 0
-          while( i<newMyBooks?.length + 3){
-            tempRows.push(newMyBooks?.slice(i, i+3))
+          while( i<tempBooks.length + 3){
+            tempRows.push(tempBooks.slice(i, i+3))
             i = i+3
           }
           setRows(tempRows)
+
+
+    },[user])
+
+    useEffect(()=>{
+        console.log("\n\n\n", user)
     },[user])
 
 
     return (
         <div className={defaultClassName}>
             <PageHeader>
-                <TypoGraphy text={"My Books"} className="PageHeader-Text"/>
+                <TypoGraphy text={"My WishList"} className="PageHeader-Text"/>
             </PageHeader>
             <PageBody className='p-3'>
                 <CardHolders>
@@ -158,7 +182,9 @@ const MyBooks = ({className}) => {
                     </Table>
                 </SideDrawerBody>
                 <SideDrawerFooter className="justify-content-end">
-                    <Button size='md' outline onClick={()=>{ returnBook(selectedRow); closeSideDrawer() }}>Return</Button>
+
+
+                    <WishListButton books={books} selectedBook={selectedRow} removeFromWishList={() => {removeFromWishList(selectedRow); toggleSideDrawer()}} requestBook={()=>{requestBook(selectedRow); toggleSideDrawer()}}/>
                 </SideDrawerFooter>
             </SideDrawer>       
         </div>
@@ -166,4 +192,4 @@ const MyBooks = ({className}) => {
            
 }
 
-export default MyBooks
+export default MyWishList

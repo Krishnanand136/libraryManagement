@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import CustomDateComponent from '../featured/customDateComponent';
 import { AgGridReact } from 'ag-grid-react'
 
@@ -16,16 +16,17 @@ const Grid = ({setGridApi, defColDef,...props}) => {
         pagination: true,
         paginationAutoPageSize: true,
         defaultColDef: {
-            flex: 1,
+            flex:1,
             sortable: true,
             filter: true,
             resizable: true,
-            cellClass: 'TypoGraphy',
             select: false,
+            sizeColumnsToFit: true,
+            autoSize: true,
             ...defColDef
         },
         cacheQuickFilter:true,
-        onGridReady: (params) => setGridApi(params.api),
+        onGridReady: (params) =>{ setGridApi(params.api);},// params.api.sizeColumnsToFit()
         ...props
     }
 

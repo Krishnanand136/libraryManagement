@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
+import { useLocation, Link } from "react-router-dom";
 import allActions from "../../state/actions"
-// import { Button } from "reactstrap"
 import { sortAOB } from "../../utils/jsUtils"
 import Grid from "../featured/grid";
 import SearchBox from "../featured/searchBox"
@@ -14,35 +14,113 @@ import Info from "../../images/info.png"
 import IconButton from "../base/IconButton";
 import SideDrawer from "../../newContainers/SideDrawer"
 import useToggle from "../../hooks/useToggle"
-import Form from "../base/Form"
-import FormGroup from "../base/FormGroup";
-import FormText from "../base/FormText";
-import FormInput from "../base/Input"; 
 import ImageContainer from "../featured/ImageContainer"
 import SideDrawerFooter from "../../newContainers/SideDrawerFooter";
 import SideDrawerBody from "../../newContainers/SideDrawerBody";
 import SideDrawerHeader from "../../newContainers/SideDrawerHeader"
 import CloseIconButton from "../../newComponents/derived/CloseIconButton"
-import Button from "../base/Button"
 
 import Table from "../base/Table"
 import TableCell from "../base/TableCell"
 import TableBody from "../base/TableBody"
-import TableHead from "../base/TableHead";
-import TableHeaderCell from "../base/TableHeaderCell"
 import TableRow from "../base/TableRow"
+import TableHeaderCell from "../base/TableHeaderCell"
+import TableHead from "../base/TableHead"
+import checked from "../../images/checked.png"
+import { Modal, ModalHeader, ModalBody } from 'reactstrap' 
 
+
+const WishListButton = ({field, user, addToWishList, grid}) => {
+    
+    const isBookOwned = user?.books?.filter(item => item.isbn === field.isbn).length > 0
+    const wishListStatus = user?.wishlist?.filter(item => item.isbn === field.isbn)?.[0]?.status
+            
+    const isBookWishListed = wishListStatus ? wishListStatus === "wishlisted" ? true : false : false
+    const isBookRequested =  wishListStatus ? wishListStatus === "requested" ? true : false : false
+    const isBookRejected =  wishListStatus ? wishListStatus === "rejected" ? true : false : false
+    return (
+        isBookOwned || isBookWishListed || isBookRequested || isBookRejected
+            ? 
+                grid 
+                    ? 
+                <IconButton
+                    alt="logo"
+                    icon={checked}
+                    
+                /> 
+                    : 
+                <MyButton disabled onClick={()=> addToWishList({isbn: field.isbn})}>WishList</MyButton>
+                
+            :
+        <MyButton onClick={()=> addToWishList({isbn: field.isbn})}>WishList</MyButton>
+    )
+}
+
+const GetBookButton = ({field, user, requestBook, grid}) => {
+    const isBookOwned = user?.books.filter(item => item.isbn === field.isbn).length > 0
+    const wishListStatus = user?.wishlist.filter(item => item.isbn === field.isbn)?.[0]?.status
+            
+    const isBookRequested =  wishListStatus ? wishListStatus === "requested" ? true : false : false
+
+    return(
+
+
+        grid
+            ? 
+            isBookOwned
+                ?
+            <IconButton
+                alt="logo"
+                icon={checked}
+                
+            /> 
+                :
+            field.issued 
+                ?
+            "ISSUED"
+                :
+            isBookRequested
+                ?
+            "REQUESTED"
+                :
+            <MyButton onClick={()=> requestBook({isbn : field.isbn})}>Get Book Now</MyButton>
+
+            :
+
+
+            isBookOwned
+                ?
+            <MyButton disabled onClick={()=> requestBook({isbn : field.isbn})}>Get Book Now</MyButton>
+            
+                :
+            field.issued 
+                ?
+            <MyButton disabled onClick={()=> requestBook({isbn : field.isbn})}>Issued</MyButton>
+                :
+            isBookRequested
+                ?
+            <MyButton disabled onClick={()=> requestBook({isbn : field.isbn})}>Requested</MyButton>
+                :
+            <MyButton onClick={()=> requestBook({isbn : field.isbn})}>Get Book Now</MyButton>
+
+    )
+}
 
 
 const UserHome = ({className}) => {
 
     const defaultClassName = `BodyContainer ${className ? className : ''}`
 
-    const dispatch = useDispatch()
-    const { books } = useSelector((state) => state);
-    const { deleteBook } = bindActionCreators(allActions, dispatch)
-
+    const state = useSelector((state) => state);
     const [ rowData, setRowData ] = useState(null)
+    const dispatch = useDispatch()
+    const { addToWishList, requestBook } = bindActionCreators(allActions, dispatch)
+    const { user, books } = state
+    const [ wishListArrivals, setWishListArrivals ] = useState(null)
+    const [ showWLA , toggleWLA ] = useToggle()
+    const location =  useLocation()
+
+
     const [ gridApi, setGridApi] = useState(null)
     const [ showSideDrawer, toggleSideDrawer, openSideDrawer, closeSideDrawer ] = useToggle()
 
@@ -50,20 +128,23 @@ const UserHome = ({className}) => {
 
     const columnDefs = [
         {
-            maxWidth: 50,
             cellRenderer: (params) => {
-                return <IconButton icon={Info} onClick={()=> {setSelectedRow(params.data); openSideDrawer()}}/>
+                return <IconButton icon={Info} onClick={() => handleSideDrawerToggle(params.data)}/>
             },
-            filter: false
+            filter: false,
+            maxWidth: 70,
+            resizable: false
         },
         {
             field: 'title',
+            flex: 5,
         },
         {
             field: 'author',
             cellRenderer: (params) => {
-                return <TypoGraphy text={params.value}/>
-            }
+                return <TypoGraphy className='overflow' text={params.value}/>
+            },
+            flex: 3
         },
         {
             field: 'published',
@@ -84,8 +165,6 @@ const UserHome = ({className}) => {
                     return 0;
                 },
             },
-            resizable: true,
-            sort: true,
             valueGetter: (params) => new Date(params.data.published),
             valueFormatter: (params) => {
                 if(params.value === null)
@@ -103,37 +182,75 @@ const UserHome = ({className}) => {
                 const formatter = new Intl.DateTimeFormat(navigator.language);
                 console.log("Date : ", formatter.format(params.value))
                 return formatter.format(params.value);
-            }
+            },
+            maxWidth: 150,
+            resizable: false,
+            flex:2,
         },
         {
             field: 'issued',
             valueGetter : (field) => field.data.issued ? "YES" : "NO",
+            maxWidth: 100,
+            resizable: false
+
         },
         {
-            cellRenderer: (field) => {
-                return <MyButton>WishList</MyButton>
-            }
+            cellRenderer: (field) => <WishListButton grid field={field.data} user={user} addToWishList={addToWishList}/>,
+            maxWidth: 150,
+            minWidth: 150,
+            resizable: false
+
         },
         {
-            cellRenderer: (field) => {
-                return <MyButton>Get Book</MyButton>
-            }
+            cellRenderer: (field) => <GetBookButton grid field={field.data} user={user} requestBook={requestBook}/>,
+            maxWidth: 150,
+            minWidth: 150,
+            resizable: false
         },
     ] 
+
+    const handleSideDrawerToggle = (rowData) => {
+        setSelectedRow(rowData);
+
+        if(!selectedRow){
+            openSideDrawer()
+            return
+        }
+
+        if(selectedRow.isbn === rowData.isbn){
+            toggleSideDrawer()
+        }else{
+            openSideDrawer()
+        }
+
+    }
 
     const handleSearch = (e) => {
         gridApi.setQuickFilter(e.target.value)
     }   
 
     useEffect(()=>{
-        console.log(selectedRow)
-    },[selectedRow])
-
-    useEffect(()=>{
-        books.length && setRowData(sortAOB(books, "isbn"))
+        books.length && setRowData(sortAOB(books.filter(el => el.status !== 'deleted'), "isbn"))
     }, [books])
 
+    useEffect(()=>{
+        if(!user) return
 
+        let userWishList = []
+        for(let i = 0; i < user.wishlist.length; i++){
+            let item = user.wishlist[i]
+            let isBookAvaliable = books.filter(el => el.isbn === item.isbn && el.issued === false && item.status !=="requested").length > 0
+            isBookAvaliable && userWishList.push(item)
+        }
+
+        userWishList.length && setWishListArrivals(userWishList) 
+    },[])
+
+    useEffect(()=>{
+        if(wishListArrivals?.length && location.state?.from === "login"){
+            toggleWLA()
+        }
+    },[ wishListArrivals ])
 
 
     return (
@@ -142,8 +259,9 @@ const UserHome = ({className}) => {
                 <TypoGraphy text={"All Books"} className="PageHeader-Text"/>
                 <SearchBox handleSearch={handleSearch}/>
             </PageHeader>
-            <PageBody>
+            <PageBody className='flex-column'>
                     <Grid
+                        gridApi={gridApi}
                         setGridApi={setGridApi}
                         rowData={rowData}
                         columnDefs={columnDefs}
@@ -166,7 +284,7 @@ const UserHome = ({className}) => {
                                     <TypoGraphy text=":"/>
                                 </TableCell>
                                 <TableCell>
-                                    <TypoGraphy text={selectedRow?.title}/>
+                                    <TypoGraphy text={selectedRow?.title} multiLine/>
                                 </TableCell>
                             </TableRow>
 
@@ -187,7 +305,7 @@ const UserHome = ({className}) => {
                                     <TypoGraphy text="Author"/>
                                 </TableCell>
                                 <TableCell>
-                                    <TypoGraphy text=":"/>
+                                    <TypoGraphy text=":" multiLine/>
                                 </TableCell>
                                 <TableCell>
                                     <TypoGraphy text={selectedRow?.author}/>
@@ -202,40 +320,46 @@ const UserHome = ({className}) => {
                                     <TypoGraphy text=":"/>
                                 </TableCell>
                                 <TableCell>
-                                    <TypoGraphy text={selectedRow?.description}/>
+                                    <TypoGraphy multiLine text={selectedRow?.description}/>
                                 </TableCell>
                             </TableRow>
 
                         </TableBody>
                     </Table>
-
-
-
-                        {/* <FormGroup direction="column">
-                            <FormText text="Title"/>
-                            <FormInput disabled value={selectedRow?.title}/>
-                        </FormGroup>
-                        <FormGroup direction="column">
-                            <FormText  text="Description"/>
-                            <FormInput disabled type="textarea" value={selectedRow?.title}/>
-                        </FormGroup>
-                        <FormGroup direction="row">
-                            <FormGroup direction="column">
-                                <FormText  text="ISBN"/>
-                                <FormInput disabled value={selectedRow?.isbn}/>
-                            </FormGroup>
-                            <FormGroup direction="column">
-                                <FormText  text="Publish Date"/>
-                                <FormInput disabled type="date" value={ selectedRow && (new Date(selectedRow.published)).toISOString().substr(0, 10) }/>
-                            </FormGroup>
-                        </FormGroup>
-                    </Form> */}
                 </SideDrawerBody>
                 <SideDrawerFooter className="justify-content-end">
-                    <Button onClick={toggleSideDrawer}>WishList</Button>
-                    <Button onClick={toggleSideDrawer}>Get Book Now</Button>
+                    <WishListButton field={selectedRow} user={user} addToWishList={addToWishList}/>
+                    <GetBookButton field={selectedRow} user={user} requestBook={requestBook}/>
                 </SideDrawerFooter>
             </SideDrawer>
+            <Modal isOpen={showWLA} toggle={toggleWLA}>
+                <ModalHeader toggle={toggleWLA}>Wishlisted Books</ModalHeader>
+                <ModalBody>
+                    <h2>{`These Books are available now :)`}</h2>
+                    <Table striped>
+                        <TableHead>
+                            <TableRow>
+                                <TableHeaderCell>#</TableHeaderCell>
+                                <TableHeaderCell>Title</TableHeaderCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                        {
+                            wishListArrivals?.map((el, index) => { 
+                                const book = books?.filter(item => item.isbn === el.isbn)[0]
+                                return (
+                                    <TableRow key={index}>
+                                        <TableCell scope="row">{index+1}</TableCell>
+                                        <TableCell>{book?.title}</TableCell>
+                                    </TableRow>
+                                )
+                            })
+                        }
+                        </TableBody>
+                    </Table>
+                    <Link to="/myWishList">My WishList</Link>
+                </ModalBody>  
+            </Modal>
            
         </div>
     )

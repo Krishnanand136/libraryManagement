@@ -15,7 +15,6 @@ const adminLogin = (state, payLoad) => {
 }
 
 const adminLogout = (state) => {
-
     let newState = {
         ...state,
         users: [
@@ -113,6 +112,7 @@ const requestBook = (state, payLoad) => {
 const removeFromWishList = (state, payLoad) => {
     const { user } = state
     const admin = state.users.filter(el =>  el.userType === 'admin')[0]
+    console.log("WishList Action User :", user, payLoad)
 
     const newUser = {
         ...user,

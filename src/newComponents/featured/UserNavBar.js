@@ -7,6 +7,9 @@ import User from "../../images/User-Default.jpg"
 import TypoGraphy from "../base/TypoGraphy"
 import { useLocation, useNavigate } from "react-router-dom"
 import IconButton from "../base/IconButton"
+import { useDispatch } from "react-redux";
+import { bindActionCreators } from "redux";
+import allActions from "../../state/actions"
 
 
 //------------------------------------------//
@@ -57,13 +60,14 @@ const NavBarLeftSection = ({className, menuItems}) => {
 
 
 //------------------------------------------//
-const RightMenuItem = ({name, icon, selected, className}) => {
+const RightMenuItem = ({name, icon, onClick, className}) => {
     const defaultClassName = `RightMenuItem ${className ? className : ''}`
     return (
         <div className={defaultClassName}>
             <img
                 src={icon}
                 className="MenuItem-icon"
+                onClick={onClick}
             />
         </div>
     )
@@ -77,7 +81,7 @@ const NavBarRightSection = ({className, menuItems}) => {
             <div className="MenuBar">
                 {
                     menuItems.map((el,index) => 
-                        <RightMenuItem key={index} icon={el.icon} />
+                        <RightMenuItem key={index} icon={el.icon} onClick={el.onClick}/>
                     )
                 }
             </div>
@@ -93,6 +97,9 @@ const UserNavBar = ({className, ...rest}) => {
     const defaultClass = `NavBar-Container ${className ? className : ''}`
     const location = useLocation()
     const navigate = useNavigate()
+
+    const dispatch = useDispatch()
+    const { userLogout } = bindActionCreators(allActions, dispatch)
 
     const leftMenuItems = [
         {
@@ -116,6 +123,17 @@ const UserNavBar = ({className, ...rest}) => {
                     navigate('/myBooks')
             }
 
+        },
+        {
+            name: 'My WishList',
+            icon: Menu1,
+            route: 'myWishList',
+            selected: location.pathname.substring(location.pathname.lastIndexOf('/') + 1) === 'myWishList',
+            onClick: () => {
+                if(location.pathname !== '/myWishList')
+                    navigate('/myWishList')
+            }
+
         }
     ]
 
@@ -134,6 +152,7 @@ const UserNavBar = ({className, ...rest}) => {
         },
         {
             name: 'User',
+            onClick: () => userLogout(),
             icon: User,
         }
 

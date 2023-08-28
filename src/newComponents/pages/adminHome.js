@@ -23,7 +23,6 @@ import SideDrawerFooter from "../../newContainers/SideDrawerFooter";
 import SideDrawerBody from "../../newContainers/SideDrawerBody";
 import SideDrawerHeader from "../../newContainers/SideDrawerHeader"
 import CloseIconButton from "../../newComponents/derived/CloseIconButton"
-import Button from "../base/Button"
 
 const AdminHome = ({className}) => {
 
@@ -35,36 +34,43 @@ const AdminHome = ({className}) => {
 
     const [ rowData, setRowData ] = useState(null)
     const [ gridApi, setGridApi] = useState(null)
-    const [ showSideDrawer, toggleSideDrawer, openSideDrawer, closeSideDrawer ] = useToggle()
+    const [ showSideDrawer, toggleSideDrawer, openSideDrawer ] = useToggle()
+
+
 
     const [ selectedRow, setSelectedRow ] = useState(null)
 
     const columnDefs = [
         {
-            maxWidth: 50,
+            maxWidth: 65,
             cellRenderer: (params) => {
                 return <IconButton icon={Edit} onClick={()=> {setSelectedRow(params.data); openSideDrawer()}}/>
             },
-            filter: false
+            filter: false,
         },
         {
             field: 'isbn',
             maxWidth: 200,
             headerStyle: { textAlign : "center"},
+            flex: 1.2
         },
         {
             field: 'title',
+            flex: 3
         },
         {
             field: 'author',
             cellRenderer: (params) => {
-                return <TypoGraphy text={params.value}/>
-            }
+                return <TypoGraphy text={params.value} className='overflow'/>
+            },
+            flex: 2
+          
         },
         {
             field: 'published',
             cellDataType: "date",
             filter: "agDateColumnFilter",
+            flex: 1,
             filterParams: {
                 comparator: (filterLocalDateAtMidnight, cellValue) => {
                     if (cellValue == null) {
@@ -100,10 +106,12 @@ const AdminHome = ({className}) => {
                 console.log("Date : ", formatter.format(params.value))
                 return formatter.format(params.value);
             }
+
         },
         {
             field: 'issued',
             valueGetter : (field) => field.data.issued ? "YES" : "NO",
+            maxWidth: 90
         },
         {
             cellRenderer: (field) => {
@@ -117,16 +125,10 @@ const AdminHome = ({className}) => {
         gridApi.setQuickFilter(e.target.value)
     }   
 
-    useEffect(()=>{
-        console.log(selectedRow)
-    },[selectedRow])
 
     useEffect(()=>{
-        books.length && setRowData(sortAOB(books, "isbn"))
+        setRowData(sortAOB(books, "isbn"))
     }, [books])
-
-
-
 
     return (
         <div className={defaultClassName}>
@@ -142,7 +144,7 @@ const AdminHome = ({className}) => {
                     />
             </PageBody>
             <SideDrawer show={showSideDrawer}>
-                <SideDrawerHeader>
+                <SideDrawerHeader >
                     <TypoGraphy text={selectedRow?.title}/>
                     <CloseIconButton toggle={toggleSideDrawer}/>
                 </SideDrawerHeader>
@@ -151,30 +153,28 @@ const AdminHome = ({className}) => {
                     <Form>
                         <FormGroup direction="column">
                             <FormText text="Title"/>
-                            <FormInput value={selectedRow?.title}/>
+                            <FormInput defaultValue={selectedRow?.title}/>
                         </FormGroup>
                         <FormGroup direction="column">
                             <FormText  text="Description"/>
-                            <FormInput type="textarea" value={selectedRow?.title}/>
+                            <FormInput type="textarea" defaultValue={selectedRow?.title}/>
                         </FormGroup>
                         <FormGroup direction="row">
                             <FormGroup direction="column">
                                 <FormText  text="ISBN"/>
-                                <FormInput value={selectedRow?.isbn}/>
+                                <FormInput defaultValue={selectedRow?.isbn}/>
                             </FormGroup>
                             <FormGroup direction="column">
                                 <FormText  text="Publish Date"/>
-                                <FormInput type="date" value={ selectedRow && (new Date(selectedRow.published)).toISOString().substr(0, 10) }/>
+                                <FormInput type="date" defaultValue={ selectedRow && (new Date(selectedRow.published)).toISOString().substr(0, 10) }/>
                             </FormGroup>
                         </FormGroup>
                     </Form>
                 </SideDrawerBody>
                 <SideDrawerFooter className="justify-content-end">
-                    <Button onClick={toggleSideDrawer}>Save</Button>
-                    <Button onClick={toggleSideDrawer}>Cancel</Button>
+
                 </SideDrawerFooter>
             </SideDrawer>
-           
         </div>
     )
            

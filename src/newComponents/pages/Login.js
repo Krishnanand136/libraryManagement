@@ -4,7 +4,7 @@ import {useNavigate} from 'react-router-dom'
 
 import { useSelector, useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
-import allActions from "../state/actions"
+import allActions from "../../state/actions"
 
 export default function Login() {
 

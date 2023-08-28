@@ -1,6 +1,6 @@
-const TypoGraphy = ({className, text, ...rest}) => {
+const TypoGraphy = ({className, text, multiLine, ...rest}) => {
 
-    const defaultClassName = `TypoGraphy ${className ? className : ''}`
+    const defaultClassName = `TypoGraphy ${className ? className : ''}${multiLine ? ' TypoGraphy-multiline': '' }`
 
     return(
         <div className={defaultClassName} {...rest}>

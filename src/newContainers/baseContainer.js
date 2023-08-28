@@ -8,10 +8,19 @@ import MyBooks from "../newComponents/pages/myBooks"
 import { pageNames } from '../utils/constants'
 import TypoGraphy from "../newComponents/base/TypoGraphy"
 import { userTypes } from "../utils/constants"
+import { useDispatch, useSelector } from "react-redux"
+import { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
+import MyWishList from "../newComponents/pages/MyWishlist"
 
-
-const BaseContainer = ({pageName, pageProps, className, userType}) => {
+const BaseContainer = ({pageName, pageProps, className}) => {
     const defaultClassName = `BaseContainer ${className ? className : ''}}`
+
+
+    const { user, admin } = useSelector((state) => state);
+    const navigate = useNavigate()
+
+    const [ userType, setUserType ]= useState()
 
     const page = () => {
         switch(pageName){
@@ -23,14 +32,25 @@ const BaseContainer = ({pageName, pageProps, className, userType}) => {
                 return <UserHome {...pageProps}/>
             case pageNames.MY_BOOKS:
                 return <MyBooks {...pageProps}/>
+            case pageNames.MY_WISHLIST:
+                return <MyWishList {...pageProps}/>
         }
     }
 
+    useEffect(()=>{
+        if(user || admin){
+            user && setUserType('USER')
+            admin && setUserType('ADMIN')
+        }else{
+            navigate('/')
+        }
+        
+    }, [user, admin])
 
     return (
             <div className={defaultClassName}>
-                {userType === userTypes.ADMIN && <AdminNavBar/>}
-                {userType === userTypes.USER && <UserNavBar/>}
+                {userType === 'ADMIN' && <AdminNavBar/>}
+                {userType === 'USER' && <UserNavBar/>}
                 {page()}
                 <Footer>
                     <TypoGraphy text="Powered by TransUnion LLC" className="copyrights-text"/>      
