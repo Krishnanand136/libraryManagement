@@ -97,6 +97,15 @@ const returnBook = (payLoad) => {
     }
 }
 
+const languageChange = () => {
+    return (dispatch) => {
+        dispatch({
+            type: "languageChange",
+        })
+    }
+}
+
+
 module.exports = {
-    userLogin, adminLogin, userLogout, adminLogout, addToWishList, deleteBook, requestBook, removeFromWishList, issueBook, rejectIssue, returnBook
+    userLogin, adminLogin, userLogout, adminLogout, addToWishList, deleteBook, requestBook, removeFromWishList, issueBook, rejectIssue, returnBook, languageChange
 }

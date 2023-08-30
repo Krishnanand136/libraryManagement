@@ -2,9 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
 import allActions from "../../state/actions"
-// import { Button } from "reactstrap"
-import { sortAOB } from "../../utils/jsUtils"
-import SearchBox from "../featured/searchBox"
 import PageHeader from "../base/pageHeader"
 import PageBody from  "../base/pageBody"
 import TypoGraphy from "../base/TypoGraphy"
@@ -23,14 +20,14 @@ import ImageContainer from "../featured/ImageContainer"
 import Card from "../../newContainers/Card"
 import BookCard from "../featured/BookCard"
 import Button from "../base/Button"
-
+import { messages } from "../../data/data";
 
 const MyBooks = ({className}) => {
 
     const defaultClassName = `BodyContainer ${className ? className : ''}`
 
     const dispatch = useDispatch()
-    const { user, books } = useSelector((state) => state);
+    const { user, books, language } = useSelector((state) => state);
     const { returnBook } = bindActionCreators(allActions, dispatch)
 
     const [ showSideDrawer, toggleSideDrawer, openSideDrawer, closeSideDrawer ] = useToggle()
@@ -78,7 +75,7 @@ const MyBooks = ({className}) => {
     return (
         <div className={defaultClassName}>
             <PageHeader>
-                <TypoGraphy text={"My Books"} className="PageHeader-Text"/>
+                <TypoGraphy text={messages.myBooks[language]} className="PageHeader-Text"/>
             </PageHeader>
             <PageBody className='p-3'>
                 <CardHolders>
@@ -108,7 +105,7 @@ const MyBooks = ({className}) => {
                         <TableBody>
                             <TableRow>
                                 <TableCell>
-                                    <TypoGraphy text="Title"/>
+                                    <TypoGraphy text={messages.title[language]}/>
                                 </TableCell>
                                 <TableCell>
                                     <TypoGraphy text=":"/>
@@ -120,7 +117,7 @@ const MyBooks = ({className}) => {
 
                             <TableRow>
                                 <TableCell>
-                                    <TypoGraphy text="ISBN"/>
+                                    <TypoGraphy text={messages.ISBN[language]}/>
                                 </TableCell>
                                 <TableCell>
                                     <TypoGraphy text=":"/>
@@ -132,7 +129,7 @@ const MyBooks = ({className}) => {
                             
                             <TableRow>
                                 <TableCell>
-                                    <TypoGraphy text="Author"/>
+                                    <TypoGraphy text={messages.author[language]}/>
                                 </TableCell>
                                 <TableCell>
                                     <TypoGraphy text=":"/>
@@ -144,7 +141,7 @@ const MyBooks = ({className}) => {
 
                             <TableRow>
                                 <TableCell>
-                                    <TypoGraphy text="Description"/>
+                                    <TypoGraphy text={messages.description[language]}/>
                                 </TableCell>
                                 <TableCell>
                                     <TypoGraphy text=":"/>
@@ -158,7 +155,7 @@ const MyBooks = ({className}) => {
                     </Table>
                 </SideDrawerBody>
                 <SideDrawerFooter className="justify-content-end">
-                    <Button size='md' outline onClick={()=>{ returnBook(selectedRow); closeSideDrawer() }}>Return</Button>
+                    <Button size='md' outline onClick={()=>{ returnBook(selectedRow); closeSideDrawer() }}>{messages.return[language]}</Button>
                 </SideDrawerFooter>
             </SideDrawer>       
         </div>

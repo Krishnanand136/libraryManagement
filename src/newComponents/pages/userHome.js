@@ -28,9 +28,10 @@ import TableHeaderCell from "../base/TableHeaderCell"
 import TableHead from "../base/TableHead"
 import checked from "../../images/checked.png"
 import { Modal, ModalHeader, ModalBody } from 'reactstrap' 
+import { messages } from "../../data/data";
 
 
-const WishListButton = ({field, user, addToWishList, grid}) => {
+const WishListButton = ({field, user, addToWishList, grid, language}) => {
     
     const isBookOwned = user?.books?.filter(item => item.isbn === field.isbn).length > 0
     const wishListStatus = user?.wishlist?.filter(item => item.isbn === field.isbn)?.[0]?.status
@@ -49,14 +50,14 @@ const WishListButton = ({field, user, addToWishList, grid}) => {
                     
                 /> 
                     : 
-                <MyButton disabled onClick={()=> addToWishList({isbn: field.isbn})}>WishList</MyButton>
+                <MyButton disabled onClick={()=> addToWishList({isbn: field.isbn})}>{messages.wishlist[language]}</MyButton>
                 
             :
-        <MyButton onClick={()=> addToWishList({isbn: field.isbn})}>WishList</MyButton>
+        <MyButton onClick={()=> addToWishList({isbn: field.isbn})}>{messages.wishlist[language]}</MyButton>
     )
 }
 
-const GetBookButton = ({field, user, requestBook, grid}) => {
+const GetBookButton = ({field, user, requestBook, grid, language}) => {
     const isBookOwned = user?.books.filter(item => item.isbn === field.isbn).length > 0
     const wishListStatus = user?.wishlist.filter(item => item.isbn === field.isbn)?.[0]?.status
             
@@ -77,31 +78,31 @@ const GetBookButton = ({field, user, requestBook, grid}) => {
                 :
             field.issued 
                 ?
-            "ISSUED"
+            messages.issued[language]
                 :
             isBookRequested
                 ?
-            "REQUESTED"
+            messages.requested[language]
                 :
-            <MyButton onClick={()=> requestBook({isbn : field.isbn})}>Get Book Now</MyButton>
+            <MyButton onClick={()=> requestBook({isbn : field.isbn})}>{messages.getBookNow[language]}</MyButton>
 
             :
 
 
             isBookOwned
                 ?
-            <MyButton disabled onClick={()=> requestBook({isbn : field.isbn})}>Get Book Now</MyButton>
+            <MyButton disabled onClick={()=> requestBook({isbn : field.isbn})}>{messages.getBookNow[language]}</MyButton>
             
                 :
             field.issued 
                 ?
-            <MyButton disabled onClick={()=> requestBook({isbn : field.isbn})}>Issued</MyButton>
+            <MyButton disabled onClick={()=> requestBook({isbn : field.isbn})}>{messages.issued[language]}</MyButton>
                 :
             isBookRequested
                 ?
-            <MyButton disabled onClick={()=> requestBook({isbn : field.isbn})}>Requested</MyButton>
+            <MyButton disabled onClick={()=> requestBook({isbn : field.isbn})}>{messages.requested[language]}</MyButton>
                 :
-            <MyButton onClick={()=> requestBook({isbn : field.isbn})}>Get Book Now</MyButton>
+            <MyButton onClick={()=> requestBook({isbn : field.isbn})}>{messages.getBookNow[language]}</MyButton>
 
     )
 }
@@ -115,7 +116,7 @@ const UserHome = ({className}) => {
     const [ rowData, setRowData ] = useState(null)
     const dispatch = useDispatch()
     const { addToWishList, requestBook } = bindActionCreators(allActions, dispatch)
-    const { user, books } = state
+    const { user, books, language } = state
     const [ wishListArrivals, setWishListArrivals ] = useState(null)
     const [ showWLA , toggleWLA ] = useToggle()
     const location =  useLocation()
@@ -133,13 +134,15 @@ const UserHome = ({className}) => {
             },
             filter: false,
             maxWidth: 70,
-            resizable: false
+            resizable: false,
         },
         {
+            headerName: messages.ISBN[language],
             field: 'title',
             flex: 5,
         },
         {
+            headerName: messages.author[language],
             field: 'author',
             cellRenderer: (params) => {
                 return <TypoGraphy className='overflow' text={params.value}/>
@@ -148,6 +151,7 @@ const UserHome = ({className}) => {
         },
         {
             field: 'published',
+            headerName: messages.published[language],
             cellDataType: "date",
             filter: "agDateColumnFilter",
             filterParams: {
@@ -180,7 +184,6 @@ const UserHome = ({className}) => {
                 if(params.value === null)
                     return ''
                 const formatter = new Intl.DateTimeFormat(navigator.language);
-                console.log("Date : ", formatter.format(params.value))
                 return formatter.format(params.value);
             },
             maxWidth: 150,
@@ -188,21 +191,22 @@ const UserHome = ({className}) => {
             flex:2,
         },
         {
+            headerName: messages.issued[language],
             field: 'issued',
-            valueGetter : (field) => field.data.issued ? "YES" : "NO",
+            valueGetter : (field) => field.data.issued ? messages.yes[language] : messages.no[language],
             maxWidth: 100,
             resizable: false
 
         },
         {
-            cellRenderer: (field) => <WishListButton grid field={field.data} user={user} addToWishList={addToWishList}/>,
+            cellRenderer: (field) => <WishListButton grid language={language} field={field.data} user={user} addToWishList={addToWishList}/>,
             maxWidth: 150,
             minWidth: 150,
             resizable: false
 
         },
         {
-            cellRenderer: (field) => <GetBookButton grid field={field.data} user={user} requestBook={requestBook}/>,
+            cellRenderer: (field) => <GetBookButton grid language={language} field={field.data} user={user} requestBook={requestBook}/>,
             maxWidth: 150,
             minWidth: 150,
             resizable: false
@@ -257,7 +261,7 @@ const UserHome = ({className}) => {
         <div className={defaultClassName}>
             <PageHeader>
                 <TypoGraphy text={"All Books"} className="PageHeader-Text"/>
-                <SearchBox handleSearch={handleSearch}/>
+                <SearchBox placeholder={messages.search[language]} handleSearch={handleSearch}/>
             </PageHeader>
             <PageBody className='flex-column'>
                     <Grid
@@ -278,7 +282,7 @@ const UserHome = ({className}) => {
                         <TableBody>
                             <TableRow>
                                 <TableCell>
-                                    <TypoGraphy text="Title"/>
+                                    <TypoGraphy text={messages.title[language]}/>
                                 </TableCell>
                                 <TableCell>
                                     <TypoGraphy text=":"/>
@@ -290,7 +294,7 @@ const UserHome = ({className}) => {
 
                             <TableRow>
                                 <TableCell>
-                                    <TypoGraphy text="ISBN"/>
+                                    <TypoGraphy text={messages.ISBN[language]}/>
                                 </TableCell>
                                 <TableCell>
                                     <TypoGraphy text=":"/>
@@ -302,7 +306,7 @@ const UserHome = ({className}) => {
                             
                             <TableRow>
                                 <TableCell>
-                                    <TypoGraphy text="Author"/>
+                                    <TypoGraphy text={messages.author[language]}/>
                                 </TableCell>
                                 <TableCell>
                                     <TypoGraphy text=":" multiLine/>
@@ -314,7 +318,7 @@ const UserHome = ({className}) => {
 
                             <TableRow>
                                 <TableCell>
-                                    <TypoGraphy text="Description"/>
+                                    <TypoGraphy text={messages.description[language]}/>
                                 </TableCell>
                                 <TableCell>
                                     <TypoGraphy text=":"/>
@@ -328,19 +332,19 @@ const UserHome = ({className}) => {
                     </Table>
                 </SideDrawerBody>
                 <SideDrawerFooter className="justify-content-end">
-                    <WishListButton field={selectedRow} user={user} addToWishList={addToWishList}/>
-                    <GetBookButton field={selectedRow} user={user} requestBook={requestBook}/>
+                    <WishListButton field={selectedRow} user={user} language={language} addToWishList={addToWishList}/>
+                    <GetBookButton field={selectedRow} user={user} language={language} requestBook={requestBook}/>
                 </SideDrawerFooter>
             </SideDrawer>
             <Modal isOpen={showWLA} toggle={toggleWLA}>
-                <ModalHeader toggle={toggleWLA}>Wishlisted Books</ModalHeader>
+                <ModalHeader toggle={toggleWLA}>{messages.wishlistedBooks[language]}</ModalHeader>
                 <ModalBody>
-                    <h2>{`These Books are available now :)`}</h2>
+                    <h2>{messages.availableBooks[language]}</h2>
                     <Table striped>
                         <TableHead>
                             <TableRow>
                                 <TableHeaderCell>#</TableHeaderCell>
-                                <TableHeaderCell>Title</TableHeaderCell>
+                                <TableHeaderCell>{messages.title[language]}</TableHeaderCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -357,7 +361,7 @@ const UserHome = ({className}) => {
                         }
                         </TableBody>
                     </Table>
-                    <Link to="/myWishList">My WishList</Link>
+                    <Link to="/myWishList">{messages.myWishList[language]}</Link>
                 </ModalBody>  
             </Modal>
            

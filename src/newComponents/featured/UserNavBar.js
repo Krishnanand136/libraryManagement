@@ -7,9 +7,10 @@ import User from "../../images/User-Default.jpg"
 import TypoGraphy from "../base/TypoGraphy"
 import { useLocation, useNavigate } from "react-router-dom"
 import IconButton from "../base/IconButton"
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { bindActionCreators } from "redux";
 import allActions from "../../state/actions"
+import { messages } from "../../data/data"
 
 
 //------------------------------------------//
@@ -99,11 +100,12 @@ const UserNavBar = ({className, ...rest}) => {
     const navigate = useNavigate()
 
     const dispatch = useDispatch()
+    const {  language } = useSelector((state) => state);
     const { userLogout } = bindActionCreators(allActions, dispatch)
 
     const leftMenuItems = [
         {
-            name: 'All Books',
+            name: messages.allBooks[language],
             icon: Menu1,
             route: 'allBooks',
             selected: location.pathname.substring(location.pathname.lastIndexOf('/') + 1) === 'homepage',
@@ -114,7 +116,7 @@ const UserNavBar = ({className, ...rest}) => {
 
         },
         {
-            name: 'MyBooks',
+            name: messages.myBooks[language],
             icon: Menu1,
             route: 'myBooks',
             selected: location.pathname.substring(location.pathname.lastIndexOf('/') + 1) === 'myBooks',
@@ -125,7 +127,7 @@ const UserNavBar = ({className, ...rest}) => {
 
         },
         {
-            name: 'My WishList',
+            name: messages.myWishList[language],
             icon: Menu1,
             route: 'myWishList',
             selected: location.pathname.substring(location.pathname.lastIndexOf('/') + 1) === 'myWishList',

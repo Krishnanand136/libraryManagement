@@ -1416,4 +1416,151 @@ const users = [
     }
 ]
 
-module.exports =  { books, users };
+const messages = {
+    allBooks: {
+        ENGLISH : 'All Books',
+        KANNADA : 'ಪುಸ್ತಕಗಳ ಪಟ್ಟಿ',
+        HINDI: 'पुस्तक सूची'
+    },
+    issueRequests: {
+        ENGLISH: 'Issue Requests',
+        KANNADA: 'ಪುಸ್ತಕ ಕೋರಿಕೆಗಳು',
+        HINDI: 'पुस्तक जारी'
+    },
+    myBooks: {
+        ENGLISH : 'My Books',
+        KANNADA : 'ನನ್ನ ಪುಸ್ತಕಗಳು',
+        HINDI: 'मेरी पुस्तकें'
+    },
+    myWishList: {
+        ENGLISH: 'My WishList',
+        KANNADA: 'ನನ್ನ ಇಚ್ಚೆಯ ಪಟ್ಟಿ',
+        HINDI: 'मेरी इच्छा सूची'
+    },
+    search : {
+        ENGLISH: 'Search',
+        KANNADA: 'ಹುಡುಕಿ',
+        HINDI: 'खोजें'
+    },
+    ISBN : {
+        ENGLISH: 'ISBN',
+        KANNADA: 'ಐ.ಎಸ್.ಬಿ.ಎನ್',
+        HINDI: 'आई.एस.बी.एन'
+    },
+    title : {
+        ENGLISH: 'Title',
+        KANNADA: 'ಶೀರ್ಷಿಕೆ',
+        HINDI: 'शीर्षक'
+    },
+    author : {
+        ENGLISH: 'Author',
+        KANNADA: 'ಲೇಖಕ',
+        HINDI: 'लेखक'
+    },
+    published : {
+        ENGLISH: 'Published',
+        KANNADA: 'ಪ್ರಕಟಣೆ',
+        HINDI: 'प्रकाशित'
+    },
+    issued : {
+        ENGLISH: 'ISSUED',
+        KANNADA: 'ಜಾರಿಗೊಡಲಾಗಿದೆ',
+        HINDI: 'जारी की गई'
+    },
+    delete : {
+        ENGLISH: 'DELETE',
+        KANNADA: 'ಡಿಲೀಟ್',
+        HINDI: 'डिलीट'
+    },
+    yes : {
+        ENGLISH: 'YES',
+        KANNADA: 'ಹೌದು',
+        HINDI: 'हाँ'
+    },
+    no : {
+        ENGLISH: 'NO',
+        KANNADA: 'ಇಲ್ಲ',
+        HINDI: 'ना'
+    },
+    userName : {
+        ENGLISH: 'User Name',
+        KANNADA: 'ಬಳಕೆದಾರರ ಹೆಸರು',
+        HINDI: 'उपयोगकर्ता नाम'
+    },
+    issue : {
+        ENGLISH: 'ISSUE',
+        KANNADA: 'ಜಾರಿಗೊಳಿಸಿ',
+        HINDI: 'जारी करें'
+    },
+    reject : {
+        ENGLISH: 'REJECT',
+        KANNADA: 'ತಿರಸ್ಕರಿಸಿ',
+        HINDI: 'अस्वीकार करें'
+    },
+    description : {
+        ENGLISH: 'Description',
+        KANNADA: 'ವಿವರಣೆ',
+        HINDI: 'विवरण'
+    }, 
+    return : {
+        ENGLISH: 'Return',
+        KANNADA: 'ಹಿಂತಿರುಗಿಸಿ',
+        HINDI: 'वापस करें'
+    },
+    requested : {
+        ENGLISH: 'Requested',
+        KANNADA: 'ಕೋರಲಾಗಿದೆ',
+        HINDI: 'अनुरोध किया गया है'
+    },
+    request : {
+        ENGLISH: 'REQUEST',
+        KANNADA: 'ಕೋರು',
+        HINDI: 'अनुरोध करें'
+    },
+    issued : {
+        ENGLISH: 'ISSUED',
+        KANNADA: 'ಜಾರಿ ಆಗಿದೆ',
+        HINDI: 'जारी हो गया है'
+    },
+    remove : {
+        ENGLISH: 'REMOVE',
+        KANNADA: 'ತೆಗೆದುಹಾಕಿ',
+        HINDI: 'हटाओ'
+    },
+    wishlist : {
+        ENGLISH: 'WISHLIST',
+        KANNADA: 'ಹಾರೈಕೆ ಪಟ್ಟಿ',
+        HINDI: 'इच्छा-सूची'
+    },
+    getBookNow : {
+        ENGLISH: 'GET BOOK NOW',
+        KANNADA: 'ಈಗಲೇ ಪಡೆ',
+        HINDI: 'अभी प्राप्त करें'
+    },
+    wishlistedBooks : {
+        ENGLISH: 'WishListed Books',
+        KANNADA: 'ಬಯಸಿದ ಪುಸ್ತಕಗಳು',
+        HINDI: 'इच्छा सूची वाली पुस्तकें'
+    },
+    availableBooks : {
+        ENGLISH: 'These Books are available now :)',
+        KANNADA: 'ಈ ಪುಸ್ತಕಗಳು ಈಗ ಲಭ್ಯವಿದೆ :)',
+        HINDI: 'ये पुस्तकें अब उपलब्ध हैं :)'
+    }
+}
+
+const languages = {
+    "en-US": 'ENGLISH',
+    "kn": 'KANNADA',
+    "hi": 'HINDI',
+}
+
+const getLanguage = (lang) => {
+    console.log(languages[lang] ? languages[lang] :  '')
+    return languages[lang] || languages['en-US']
+}
+
+    
+
+
+export  { books, users, languages, messages, getLanguage };

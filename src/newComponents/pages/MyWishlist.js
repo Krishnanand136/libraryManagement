@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
-import allActions from "../../state/actions"
+import allActions, { languageChange } from "../../state/actions"
 // import { Button } from "reactstrap"
 import { sortAOB } from "../../utils/jsUtils"
 import SearchBox from "../featured/searchBox"
@@ -23,18 +23,17 @@ import ImageContainer from "../featured/ImageContainer"
 import Card from "../../newContainers/Card"
 import BookCard from "../featured/BookCard"
 import Button from "../base/Button"
+import { messages } from "../../data/data";
 
-
-const WishListButton = ({books, selectedBook, requestBook, removeFromWishList }) => {
+const WishListButton = ({books, selectedBook, requestBook, removeFromWishList, language }) => {
     const book = books.find(el => el?.isbn === selectedBook?.isbn)
     const isBookRequested = selectedBook.status === 'requested'
     const isBookIssued = book.issued
 
-    console.log(books, selectedBook)
     return(
         <>
-            <Button disabled={isBookIssued || isBookRequested} size='md' outline onClick={() => requestBook(selectedBook)}>{isBookRequested ? "Requested" : isBookIssued ? "Issued" : "Request"}</Button>
-            <Button size='md' outline onClick={()=>removeFromWishList(selectedBook)}>Remove</Button>
+            <Button disabled={isBookIssued || isBookRequested} size='md' outline onClick={() => requestBook(selectedBook)}>{isBookRequested ? messages.requested[language] : isBookIssued ? messages.issued[language] : messages.request[language]}</Button>
+            <Button size='md' outline onClick={()=>removeFromWishList(selectedBook)}>{messages.remove[language]}</Button>
         </>
     )
 
@@ -46,7 +45,7 @@ const MyWishList = ({className}) => {
     const defaultClassName = `BodyContainer ${className ? className : ''}`
 
     const dispatch = useDispatch()
-    const { user, books } = useSelector((state) => state);
+    const { user, books, language } = useSelector((state) => state);
     const { removeFromWishList, requestBook } = bindActionCreators(allActions, dispatch)
 
     const [ showSideDrawer, toggleSideDrawer, openSideDrawer, closeSideDrawer ] = useToggle()
@@ -102,7 +101,7 @@ const MyWishList = ({className}) => {
     return (
         <div className={defaultClassName}>
             <PageHeader>
-                <TypoGraphy text={"My WishList"} className="PageHeader-Text"/>
+                <TypoGraphy text={messages.myWishList[language]} className="PageHeader-Text"/>
             </PageHeader>
             <PageBody className='p-3'>
                 <CardHolders>
@@ -132,7 +131,7 @@ const MyWishList = ({className}) => {
                         <TableBody>
                             <TableRow>
                                 <TableCell>
-                                    <TypoGraphy text="Title"/>
+                                    <TypoGraphy text={messages.title[language]}/>
                                 </TableCell>
                                 <TableCell>
                                     <TypoGraphy text=":"/>
@@ -144,7 +143,7 @@ const MyWishList = ({className}) => {
 
                             <TableRow>
                                 <TableCell>
-                                    <TypoGraphy text="ISBN"/>
+                                    <TypoGraphy text={messages.ISBN[language]}/>
                                 </TableCell>
                                 <TableCell>
                                     <TypoGraphy text=":"/>
@@ -156,7 +155,7 @@ const MyWishList = ({className}) => {
                             
                             <TableRow>
                                 <TableCell>
-                                    <TypoGraphy text="Author"/>
+                                    <TypoGraphy text={messages.author[language]}/>
                                 </TableCell>
                                 <TableCell>
                                     <TypoGraphy text=":"/>
@@ -168,7 +167,7 @@ const MyWishList = ({className}) => {
 
                             <TableRow>
                                 <TableCell>
-                                    <TypoGraphy text="Description"/>
+                                    <TypoGraphy text={messages.description[language]}/>
                                 </TableCell>
                                 <TableCell>
                                     <TypoGraphy text=":"/>
@@ -182,9 +181,7 @@ const MyWishList = ({className}) => {
                     </Table>
                 </SideDrawerBody>
                 <SideDrawerFooter className="justify-content-end">
-
-
-                    <WishListButton books={books} selectedBook={selectedRow} removeFromWishList={() => {removeFromWishList(selectedRow); toggleSideDrawer()}} requestBook={()=>{requestBook(selectedRow); toggleSideDrawer()}}/>
+                    <WishListButton books={books} selectedBook={selectedRow} language={language} removeFromWishList={() => {removeFromWishList(selectedRow); toggleSideDrawer()}} requestBook={()=>{requestBook(selectedRow); toggleSideDrawer()}}/>
                 </SideDrawerFooter>
             </SideDrawer>       
         </div>

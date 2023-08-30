@@ -1,17 +1,18 @@
-import { users, books } from "../data/data"
+import { users, books, getLanguage } from "../data/data"
 import { pick, omit, randomString  } from "../utils/jsUtils"
 
 const initialState = {
     users,
-    books
+    books,
+    language : 'en-US'
 }
 
 const userLogin = (state, payLoad) => {
-    return { ...state, user: payLoad }
+    return { ...state, user: payLoad, language: getLanguage(navigator.language) }
 }
 
 const adminLogin = (state, payLoad) => {
-    return { ...state, admin: payLoad }
+    return { ...state, admin: payLoad, language: getLanguage(navigator.language) }
 }
 
 const adminLogout = (state) => {
@@ -249,6 +250,10 @@ const returnBook = (state, payLoad) => {
 
 }
 
+const languageChange = (state) => {
+    return { ...state,  language: getLanguage(navigator.language) }
+}
+
 
 const reducer = (state = initialState, action) => { 
 
@@ -286,6 +291,9 @@ const reducer = (state = initialState, action) => {
 
         case "returnBook":
             return returnBook(state, action.payLoad)
+        
+        case "languageChange":
+            return languageChange(state)
 
         default:
             return state

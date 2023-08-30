@@ -7,10 +7,10 @@ import User from "../../images/User-Default.jpg"
 import TypoGraphy from "../base/TypoGraphy"
 import { useLocation, useNavigate } from "react-router-dom"
 import IconButton from "../base/IconButton"
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { bindActionCreators } from "redux";
 import allActions from "../../state/actions"
-
+import { messages } from "../../data/data"
 
 //------------------------------------------//
 const NavBarBrand = ({className, ...props}) => {
@@ -99,11 +99,13 @@ const AdminNavBar = ({className, ...rest}) => {
     const navigate = useNavigate()
 
     const dispatch = useDispatch()
+    const { language } = useSelector((state) => state);
+
     const { adminLogout } = bindActionCreators(allActions, dispatch)
 
     const leftMenuItems = [
         {
-            name: 'All Books',
+            name: messages.allBooks[language],
             icon: Menu1,
             route: 'allBooks',
             selected: location.pathname.substring(location.pathname.lastIndexOf('/') + 1) === 'allBooks',
@@ -114,7 +116,7 @@ const AdminNavBar = ({className, ...rest}) => {
 
         },
         {
-            name: 'Issue Requests',
+            name: messages.issueRequests[language],
             icon: Menu1,
             route: 'issueRequests',
             selected: location.pathname.substring(location.pathname.lastIndexOf('/') + 1) === 'issueRequests',

@@ -23,19 +23,19 @@ import SideDrawerFooter from "../../newContainers/SideDrawerFooter";
 import SideDrawerBody from "../../newContainers/SideDrawerBody";
 import SideDrawerHeader from "../../newContainers/SideDrawerHeader"
 import CloseIconButton from "../../newComponents/derived/CloseIconButton"
+import { messages } from "../../data/data";
 
 const AdminHome = ({className}) => {
 
     const defaultClassName = `BodyContainer ${className ? className : ''}`
 
     const dispatch = useDispatch()
-    const { books } = useSelector((state) => state);
+    const { books, language } = useSelector((state) => state);
     const { deleteBook } = bindActionCreators(allActions, dispatch)
 
     const [ rowData, setRowData ] = useState(null)
     const [ gridApi, setGridApi] = useState(null)
     const [ showSideDrawer, toggleSideDrawer, openSideDrawer ] = useToggle()
-
 
 
     const [ selectedRow, setSelectedRow ] = useState(null)
@@ -50,16 +50,19 @@ const AdminHome = ({className}) => {
         },
         {
             field: 'isbn',
+            headerName: messages.ISBN[language],
             maxWidth: 200,
             headerStyle: { textAlign : "center"},
             flex: 1.2
         },
         {
             field: 'title',
+            headerName: messages.title[language],
             flex: 3
         },
         {
             field: 'author',
+            headerName: messages.author[language],
             cellRenderer: (params) => {
                 return <TypoGraphy text={params.value} className='overflow'/>
             },
@@ -68,6 +71,7 @@ const AdminHome = ({className}) => {
         },
         {
             field: 'published',
+            headerName: messages.published[language],
             cellDataType: "date",
             filter: "agDateColumnFilter",
             flex: 1,
@@ -110,13 +114,14 @@ const AdminHome = ({className}) => {
         },
         {
             field: 'issued',
-            valueGetter : (field) => field.data.issued ? "YES" : "NO",
+            headerName: messages.issued[language],
+            valueGetter : (field) => field.data.issued ? messages.yes[language] : messages.no[language],
             maxWidth: 90
         },
         {
             cellRenderer: (field) => {
                 const { data } = field
-                return <MyButton disabled={data.status === 'deleted'} onClick={()=> deleteBook({isbn : data.isbn})}>Delete</MyButton>
+                return <MyButton disabled={data.status === 'deleted'} onClick={()=> deleteBook({isbn : data.isbn})}>{messages.delete[language]}</MyButton>
             }
         },
     ] 
@@ -125,7 +130,7 @@ const AdminHome = ({className}) => {
         gridApi.setQuickFilter(e.target.value)
     }   
 
-
+ 
     useEffect(()=>{
         setRowData(sortAOB(books, "isbn"))
     }, [books])
@@ -133,8 +138,8 @@ const AdminHome = ({className}) => {
     return (
         <div className={defaultClassName}>
             <PageHeader>
-                <TypoGraphy text={"All Books"} className="PageHeader-Text"/>
-                <SearchBox handleSearch={handleSearch}/>
+                <TypoGraphy text={messages.allBooks[language]} className="PageHeader-Text"/>
+                <SearchBox placeholder={messages.search[language]} handleSearch={handleSearch}/>
             </PageHeader>
             <PageBody>
                     <Grid

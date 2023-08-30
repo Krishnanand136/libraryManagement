@@ -4,13 +4,29 @@ import { BrowserRouter,Routes, Route } from 'react-router-dom';
 import Login from './newComponents/pages/Login'
 import { createBrowserHistory } from 'history';
 import BaseContainer from './newContainers/baseContainer';
-
+import { useDispatch } from "react-redux";
+import { bindActionCreators } from "redux";
+import allActions from "./state/actions"
 import { pageNames } from './utils/constants';
+
 
 
 const history = createBrowserHistory()
 
+
+
+
+
+
 function App() {
+
+  const dispatch = useDispatch()
+  const { languageChange } = bindActionCreators(allActions, dispatch)
+
+  window.onlanguagechange = function(event) {
+      languageChange()
+  };
+
   return (
     <div className="App">
         <BrowserRouter history={history}>
