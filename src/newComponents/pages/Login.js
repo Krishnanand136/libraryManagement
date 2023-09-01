@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Form, FormGroup, Label, Input, Button } from "reactstrap";
 import {useNavigate} from 'react-router-dom'
-
+import {authenticate} from "../../data/awsAuth"
 import { useSelector, useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
 import allActions from "../../state/actions"
@@ -18,17 +18,12 @@ export default function Login() {
     const handleSubmitLogin = async(e) => {
         e.preventDefault()
         const formData = new FormData(e.target)
-        
-        const user = users.filter(el => el.userName === formData.get('userName')?.trim() && el.password ===  formData.get('password')?.trim())[0]
-        if(user){
-            if(user.userType === "admin"){
-                adminLogin(user)   
-            }else{
-                userLogin(user)
-            }
-        }else{
-            alert('userName or password is wrong')
+        const userData = {
+            Username  : formData.get('userName'),
+            Password: formData.get('password')
         }
+
+        authenticate(userData)
     }
 
     useEffect(() => {

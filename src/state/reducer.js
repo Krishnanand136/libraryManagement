@@ -4,12 +4,14 @@ import { pick, omit, randomString  } from "../utils/jsUtils"
 const initialState = {
     users,
     books,
-    language : 'en-US'
+    language : 'en-US',
+    loginSubmited: false
 }
 
-const userLogin = (state, payLoad) => {
-    return { ...state, user: payLoad, language: getLanguage(navigator.language) }
+const userLogin = (state) => {
+    return { ...state, loginSubmited: true, language: getLanguage(navigator.language) }
 }
+
 
 const adminLogin = (state, payLoad) => {
     return { ...state, admin: payLoad, language: getLanguage(navigator.language) }
