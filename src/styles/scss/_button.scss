@@ -1,0 +1,270 @@
+@import './colors.scss';
+
+@mixin vs-button {
+    width: auto;
+    height: 40px;
+    padding: 0px 16px 0px 16px;
+    margin: 0;
+    box-sizing: border-box;
+    text-align: center;
+    box-shadow: 1px 0 1px 0 rgba(118, 121, 123, 0.16);
+    border-radius: 20px;
+    font-family: "Nunito", Arial, sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-stretch: normal;
+    font-weight: 400;
+    line-height: 1.14;
+    letter-spacing: normal;
+    margin: 0;
+    text-transform: uppercase;
+    border-style: solid;
+    border-width: 1px;
+    min-width: 80px;
+    overflow: hidden;
+};
+
+@mixin vs-button-small {
+    width: auto;
+    height: 32px;
+    padding: 0px 16px 0px 16px;
+    margin: 0;
+    box-sizing: border-box;
+    text-align: center;
+    box-shadow: 1px 0 1px 0 rgba(118, 121, 123, 0.16);
+    font-family: "Nunito", Arial, sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-stretch: normal;
+    font-weight: 400;
+    line-height: 1.14;
+    letter-spacing: normal;
+    margin: 0;
+    text-transform: uppercase;
+    border-style: solid;
+    border-width: 1px;
+    min-width: 80px;
+    overflow: hidden;
+};
+
+
+//-----------------------primary----------------------------
+
+.vs-primary-one {
+    @include vs-button;
+    background-color: $primary-one-dark;
+    color: $white;
+    border-color: $secondary-two-bright;
+};
+
+.vs-primary-one:hover {
+    @extend .vs-primary-one;
+};
+
+.vs-primary-one:active {
+    @extend .vs-primary-one;
+    background-color: $primary-one-dark !important;
+    border-color: $secondary-two-bright !important;
+};
+
+.vs-primary-one[disabled] {
+    @extend .vs-primary-one;
+    background-color: $primary-one-light !important;
+    color: $text-tertiary !important;
+    border-color: $primary-two-light !important;
+};
+
+
+//-----------------------primary-small---------------------------
+
+.vs-primary-one-small {
+    @include vs-button-small;
+    background-color: $primary-one-dark;
+    color: $white;
+    border-color: $secondary-two-bright;
+};
+
+.vs-primary-one-small:hover {
+    @extend .vs-primary-one-small;
+};
+
+.vs-primary-one-small:active {
+    @extend .vs-primary-one-small;
+    background-color: $primary-one-dark !important;
+    border-color: $secondary-two-bright !important;
+};
+
+.vs-primary-one-small[disabled] {
+    @extend .vs-primary-one-small;
+    background-color: $primary-one-light !important;
+    color: $text-tertiary !important;
+    border-color: $primary-two-light !important;
+};
+
+
+//-----------------------primary-outline---------------------------
+
+
+.vs-primary-outline {
+    @include vs-button;
+    background-color: $white;   
+    color: $primary-one-dark;
+    border-color: $primary-one-dark;
+};
+
+.vs-primary-outline:hover {
+    @extend .vs-primary-outline;
+};
+
+.vs-primary-outline:active {
+    @extend .vs-primary-outline;
+    background-color: $white !important;   
+    color: $primary-one-dark !important;
+    border-color: $primary-one-dark !important;
+};
+
+.vs-primary-outline[disabled] {
+    @extend .vs-primary-outline;
+    background-color: $white;   
+    color: $text-tertiary;
+    border-color: $primary-two-light;
+};
+
+
+//-----------------------primary-outline-small--------------------------
+
+.vs-primary-outline-small {
+    @include vs-button-small;
+    background-color: $white;   
+    color: $primary-one-dark !important;
+    border-color: $primary-one-dark;
+};
+
+.vs-primary-outline-small:hover {
+    @extend .vs-primary-outline-small;
+};
+
+.vs-primary-outline-small:active {
+    @extend .vs-primary-outline-small;
+    background-color: $white !important;
+    color: $primary-one-dark !important;
+    border-color: $primary-one-dark !important;
+};
+
+.vs-primary-outline-small[disabled] {
+    @extend .vs-primary-outline-small;
+    background-color: $white;   
+    color: $primary-one-dark !important;
+    border-color: $primary-one-dark;
+};
+
+
+
+//-----------------------secondary----------------------------
+
+.vs-secondary-one {
+    @include vs-button;
+    background-color: $secondary-one-dark;
+    color: $text-primary;
+    border-color: $secondary-two-bright;
+};
+
+.vs-secondary-one:hover {
+    @extend .vs-secondary-one;
+};
+
+.vs-secondary-one:active {
+    @extend .vs-secondary-one;
+    background-color: $secondary-one-dark !important;
+    color: $text-primary !important;
+    border-color: $secondary-two-bright !important;
+};
+
+.vs-secondary-one[disabled] {
+    @extend .vs-secondary-one;
+    background-color: $secondary-one-light;
+    color: $text-tertiary;
+    border-color: $secondary-two-light;
+};
+
+//-----------------------secondary-small---------------------------
+
+.vs-secondary-one-small {
+    @include vs-button-small;
+    background-color: $secondary-one-dark;
+    color: $text-primary;
+    border-color: $secondary-two-bright;
+};
+
+.vs-secondary-one-small:hover {
+    @extend .vs-secondary-one-small;
+};
+
+.vs-secondary-one-small:active {
+    @extend .vs-secondary-one-small;
+    background-color: $secondary-one-dark !important;
+    color: $text-primary !important;
+    border-color: $secondary-two-bright !important;
+};
+
+.vs-secondary-one-small[disabled] {
+    @extend .vs-secondary-one-small;
+    background-color: $secondary-one-light;
+    color: $text-tertiary;
+    border-color: $secondary-two-light;
+};
+
+//-----------------------secondary-outline---------------------------
+
+.vs-secondary-outline {
+    @include vs-button;
+    background-color: $white !important;
+    color: $text-primary;
+    border-color: $secondary-one-dark;
+};
+
+.vs-secondary-outline:hover {
+    @extend .vs-secondary-outline;
+};
+
+.vs-secondary-outline:active {
+    @extend .vs-secondary-outline;
+    background-color: $white !important;
+    color: $text-primary !important;
+    border-color: $secondary-one-dark !important;
+};
+
+.vs-secondary-outline[disabled] {
+    @extend .vs-secondary-outline;
+    background-color: $secondary-one-light;
+    color: $text-tertiary;
+    border-color: $primary-two-bright;
+};
+
+//-----------------------secondary-outline-small--------------------------
+
+.vs-secondary-outline-small {
+    @include vs-button-small;
+    background-color: $white !important;
+    color: $text-primary;
+    border-color: $secondary-one-dark;
+};
+
+.vs-secondary-outline-small:hover {
+    @extend .vs-secondary-outline-small;
+};  
+
+.vs-secondary-outline-small:active {
+    @extend .vs-secondary-outline-small;
+    background-color: $white !important;
+    color: $text-primary !important;
+    border-color: $secondary-one-dark !important;
+};
+
+.vs-secondary-outline-small[disabled] {
+    @extend .vs-secondary-outline-small;
+    background-color: $secondary-one-light;
+    color: $text-tertiary;
+    border-color: $secondary-two-light;
+};
+

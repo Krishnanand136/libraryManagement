@@ -1,0 +1,27 @@
+@use 'sass:map';
+@import './themes.scss';
+
+$componenents : (
+    button : (
+        default: 'vs-button',
+        primary: 'vs-primary',
+        secondary: 'vs-secondary',
+    ),
+);
+
+
+@function getComponentClass( $themeName , $componentName) {
+
+    @if map.has-key($componenents, $componentName, $themeName) {
+        @return map.get($componenents, $componentName, $themeName);
+    }@else{
+        @return map.get($componenents, $componentName, 'default');
+    }
+
+};
+
+
+
+
+
+

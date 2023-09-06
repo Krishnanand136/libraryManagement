@@ -25,6 +25,8 @@ import SideDrawerHeader from "../../newContainers/SideDrawerHeader"
 import CloseIconButton from "../../newComponents/derived/CloseIconButton"
 import { messages } from "../../data/data";
 
+import DropDownButton from "../base/DropDownButton";
+
 const AdminHome = ({className}) => {
 
     const defaultClassName = `BodyContainer ${className ? className : ''}`
@@ -121,7 +123,7 @@ const AdminHome = ({className}) => {
         {
             cellRenderer: (field) => {
                 const { data } = field
-                return <MyButton disabled={data.status === 'deleted'} onClick={()=> deleteBook({isbn : data.isbn})}>{messages.delete[language]}</MyButton>
+                return <DropDownButton title='Delete' disabled={data.status === 'deleted'} onClick={()=> deleteBook({isbn : data.isbn})}>{messages.delete[language]}</DropDownButton>
             }
         },
     ] 
@@ -184,5 +186,7 @@ const AdminHome = ({className}) => {
     )
            
 }
+
+
 
 export default AdminHome

@@ -1,13 +1,17 @@
-import { Button } from "reactstrap" 
+import { Button } from "react-bootstrap" 
+import { getButtonComponentClass } from "../../data/styling"
+const theme = 'secondary'
 
-const button = ({icon , className, ...rest }) => {
 
-    const defaultClassName = `MyButton ${className ? className : ''}`
+const button = ({className, outline=true , small=true, ...rest }) => {
+
+    const defaultClassName = `${getButtonComponentClass(theme, outline, small)} ${className ? className : ''} `;
     
     return (
-        <Button className={defaultClassName} {...rest} >{rest.children}</Button>
+        <Button {...rest} className={defaultClassName} {...rest} >
+            {rest.children}
+        </Button>
     )
-
 }
 
 export default button

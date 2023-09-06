@@ -1,0 +1,23 @@
+// @use 'sass:map';
+
+// $themes : (
+//     default: 'default',
+//     primary: 'primary',
+//     secondary: 'secondary'
+// );
+
+
+// @function getTheme( $themeName ){
+
+//     @if map.has-key($themes, $themeName) {
+//         @return map.get($themes, $themeName);
+//     }@else{
+//         @return map.get($themes, 'default');
+//     }
+
+// };
+
+
+
+
+

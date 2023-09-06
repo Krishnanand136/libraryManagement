@@ -7,8 +7,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import 'ag-grid-community/styles/ag-grid.css'; // Core grid CSS, always needed
 import 'ag-grid-community/styles/ag-theme-alpine.css'; // Optional theme CSS
+import './styles/css/styles.css'
 import './newCss.css'
-
 import { Provider } from 'react-redux';
 import store from "./state/store"
 
